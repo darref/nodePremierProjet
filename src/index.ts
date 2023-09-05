@@ -42,6 +42,7 @@ const app = express()
 const port = 3000
 
 app.get('/toto', (req, res) => {
+  console.log("toto")
   res.send("toto")
 })
 
@@ -53,14 +54,21 @@ app.get('/date', (req, res) => {
 })
 
 app.get('/thomas', (req, res) => {
-  let t = {"name":"thomas"}
+  let t = JSON.stringify({"name":"thomas"})
   res.send(t)
 })
 
-import {readJsonSync,writeJsonSync} from "fs-extra"
+import fs from "fs-extra"
 app.get('/files', (req, res) => {
+  fs.writeFileSync("./toto.txt" , "testestestest")
+  res.send("right file done ok")
+})
 
-  res.send()
+app.get('/range/:min/:max', (req, res) => {
+
+  let min = parseInt(req.params.min);
+  let max = parseInt(req.params.max);
+  res.send(Math.floor(Math.random() * (max - min) + min).toString())
 })
 
 app.listen(port, () => {

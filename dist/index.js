@@ -45,6 +45,7 @@ const express_1 = __importDefault(require("express"));
 const app = (0, express_1.default)();
 const port = 3000;
 app.get('/toto', (req, res) => {
+    console.log("toto");
     res.send("toto");
 });
 app.get('/date', (req, res) => {
@@ -53,8 +54,18 @@ app.get('/date', (req, res) => {
     res.send(today);
 });
 app.get('/thomas', (req, res) => {
-    let t = { "name": "thomas" };
+    let t = JSON.stringify({ "name": "thomas" });
     res.send(t);
+});
+const fs_extra_1 = __importDefault(require("fs-extra"));
+app.get('/files', (req, res) => {
+    fs_extra_1.default.writeFileSync("./toto.txt", "testestestest");
+    res.send("right file done ok");
+});
+app.get('/range/:min/:max', (req, res) => {
+    let min = parseInt(req.params.min);
+    let max = parseInt(req.params.max);
+    res.send(Math.floor(Math.random() * (max - min) + min).toString());
 });
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
